@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./css/index.css" />
+  </head>
+  <body>
+    <div class="reset container-fluid">
+      <div style="font-size: 30px;" class="text-center">
+        Covid-19 Current World status
+      </div>
+    </div>
+    <div class="container1">
+      <div class="row">
+        <div class="worldDataContainer my-3 col-md-4 col-lg-4 container-fluid">
+          <div class="worldData container-fluid" id="dataCases"></div>
+        </div>
+        <div class="worldDataContainer my-3 col-md-4 col-lg-4 container-fluid">
+          <div class="worldData container-fluid" id="dataDeaths"></div>
+        </div>
+        <div class="worldDataContainer my-3 col-md-4 col-lg-4 container-fluid">
+          <div class="worldData container-fluid" id="dataRecovered"></div>
+        </div>
+      </div>
+    </div>
+    <div class="reset container-fluid">
+      <div style="font-size: 30px;" class="text-center">
+        Compare two Countries
+      </div>
+    </div>
+    <div class="text-center">
+      <button
+        type="button"
+        id="chooseBtn"
+        onclick="compareCountries('#selectCountry','#selectCountry1','myChartCompared')"
+        class="btn btn-primary center-block"
+      >
+        Compare
+      </button>
+    </div>
+
+    <div class="container2 container-flex align-middle">
+      <div class="row">
+        <div class="wprowadzPanstwo col-10 mx-auto col-md-6 col-lg-6 r">
+          <select
+            id="selectCountry"
+            class="browser-default custom-select custom-select-lg mb-3"
+          >
+            <option selected>Choose Country</option>
+          </select>
+          <div class="text-center">
+            <button
+              type="button"
+              id="chooseBtn"
+              onclick="chooseCountry('#selectCountry','myChart')"
+              class="btn btn-primary center-block"
+            >
+              Choose Country
+            </button>
+          </div>
+          <div class="container-flex">
+            <canvas id="myChart"></canvas>
+          </div>
+        </div>
+        <div class="wprowadzPanstwo col-10 mx-auto col-md-6 col-lg-6">
+          <select
+            id="selectCountry1"
+            class="browser-default custom-select custom-select-lg mb-3"
+          >
+            <option selected>Choose Country</option>
+          </select>
+          <div class="text-center">
+            <button
+              type="button"
+              id="chooseBtn"
+              onclick="chooseCountry('#selectCountry1','myChart1')"
+              class="btn btn-primary center-block"
+            >
+              Choose Country
+            </button>
+          </div>
+          <div class="container-flex">
+            <canvas id="myChart1"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container2 container-flex">
+      <div class="container-flex">
+        <canvas id="myChartCompared"></canvas>
+      </div>
+    </div>
+
+    <script src="./countries.js"></script>
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+    <script>
+      showCountries();
+      $(document).ready(function () {
+        init();
+        function init() {
+          var url = "https://api.covid19api.com/summary";
+
+          var dataCases = "";
+          var dataDeaths = "";
+          var dataRecovered = "";
+
+          $.get(url, function (data) {
+            console.log(data.countries);
+
+            dataCases = `Total Cases : ${data.Global.TotalConfirmed}`;
+            dataDeaths = `Total Deaths: : ${data.Global.TotalDeaths}`;
+            dataRecovered = `Total Recovered: : ${data.Global.TotalRecovered}`;
+
+            $("#dataCases").html(dataCases);
+            $("#dataDeaths").html(dataDeaths);
+            $("#dataRecovered").html(dataRecovered);
+          });
+        }
+      });
+
+      function chooseCountry(country, choosedCanvas) {
+        var choosedCountry = $(country).find(":selected").text();
+        var urlSelected =
+          "https://api.covid19api.com/total/country/" +
+          choosedCountry +
+          "/status/confirmed";
+
+        //Function after onclick searching button
+
+        $.get(urlSelected, function (data) {
+          var cases = [];
+          var date = [];
+
+          for (var i = 0; i < data.length; ++i) {
+            cases[i] = data[i].Cases;
+            date[i] = data[i].Date;
+            date[i] = date[i].substr(0, 10);
+            console.log(date[i]);
+          }
+          //chart
+
+          var ctx = document.getElementById(choosedCanvas).getContext("2d");
+          var chart1 = new Chart(ctx, {
+            // The type of chart we want to create
+
+            type: "bar",
+
+            // The data for our dataset
+
+            data: {
+              labels: date,
+              datasets: [
+                {
+                  label: choosedCountry + " Cases/Days",
+                  backgroundColor: "black",
+                  borderColor: "",
+                  data: cases,
+                },
+              ],
+            },
+
+            // Configuration options go here
+            options: {},
+          });
+        });
+      }
+      function compareCountries(country1, country2, choosedCanvas) {
+        //FIRST COUNTRY
+        var choosedCountry1 = $(country1).find(":selected").text();
+        var urlSelected1 =
+          "https://api.covid19api.com/total/country/" +
+          choosedCountry1 +
+          "/status/confirmed";
+        //SECOND COUNTRY
+        var choosedCountry2 = $(country2).find(":selected").text();
+        var urlSelected2 =
+          "https://api.covid19api.com/total/country/" +
+          choosedCountry2 +
+          "/status/confirmed";
+        $.get(urlSelected1, function (data1) {
+          var cases1 = [];
+          var cases2 = [];
+          var date = [];
+
+          for (var i = 0; i < data1.length; ++i) {
+            cases1[i] = data1[i].Cases;
+            date[i] = data1[i].Date;
+            date[i] = date[i].substr(0, 10);
+          }
+          $.get(urlSelected2, function (data2) {
+            for (var i = 0; i < data2.length; ++i) {
+              cases2[i] = data2[i].Cases;
+            }
+
+            if (chart != null) {
+              chart.destroy();
+            }
+            var ctx = document.getElementById(choosedCanvas).getContext("2d");
+            var chart = new Chart(ctx, {
+              // The type of chart we want to create
+
+              type: "bar",
+
+              // The data for our dataset
+
+              data: {
+                labels: date,
+                datasets: [
+                  {
+                    label: choosedCountry1 + " Cases/Days",
+                    backgroundColor: "red",
+                    borderColor: "rgb(255, 99, 132)",
+                    data: cases1,
+                  },
+                  {
+                    label: choosedCountry2 + " Cases/Days",
+                    backgroundColor: "green",
+                    borderColor: "rgb(255, 99, 132)",
+                    data: cases2,
+                  },
+                ],
+              },
+
+              // Configuration options go here
+              options: {},
+            });
+          });
+        });
+      }
+    </script>
+    <!--botstrap-->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <!--chart js-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  </body>
+</html>

@@ -1,0 +1,92 @@
+:root {
+  --mainYellow: #c9c260;
+  --mainBlack: #191919;
+}
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: white;
+}
+.container {
+  width: max-content;
+  height: 100px;
+  background-color: var(--blue);
+}
+
+h1 {
+  text-align: center;
+  margin-top: 10px;
+  padding-bottom: 10px;
+  background-color: black;
+  color: white;
+}
+.danePodstawowe {
+  background-color: yellow;
+}
+div.wprowadzPanstwo {
+  margin: 0 auto;
+  width: 465px;
+}
+
+.container1,
+.container2 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-right: 0px;
+  margin-left: 0px;
+}
+button {
+  background-color: var(--mainYellow) !important;
+  border-color: var(--mainYellow) !important;
+  color: black !important;
+}
+.restartButton {
+  height: 60px;
+}
+#myChart {
+  width: 50vh;
+  height: 40vh !important;
+  padding-left: 0;
+  padding-right: 0;
+  margin-right: 0;
+  margin-left: 0;
+}
+.container {
+  height: 50vh;
+  width: 50vh;
+  border-radius: 1px !important;
+  border-color: black !important;
+  background-color: white !important;
+}
+.container {
+  padding-right: 0;
+  padding-left: 0;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+h3 {
+  width: 44vh;
+}
+
+.card {
+  width: 33vh;
+}
+.worldDataContainer {
+  width: 333vh !important;
+  height: 75px;
+  border-style: solid;
+  border-radius: 5px;
+  border-width: 2px;
+}
+.worldData {
+  font-size: 20px;
+  font-weight: 500;
+  margin-top: 1.5vh;
+  text-align: center;
+  width: max-content;
+  height: max-content;
+}
