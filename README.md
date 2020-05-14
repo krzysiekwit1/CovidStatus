@@ -19,7 +19,7 @@ Project is created with:
 ## Setup
 To run this project just download and open index.html on local server emulator 
 
-##Information
+## Information
 This website is my school project, mainly is frontend for covid Api, you can check updated status of pandemic situation in your country and compare with second country.
 
 ## Screen shots
