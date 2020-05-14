@@ -23,5 +23,5 @@ To run this project just download and open index.html on local server emulator
 This website is my school project, mainly is frontend for covid Api, you can check updated status of pandemic situation in your country and compare with second country.
 
 ## Screen shots
-![Website](./images/Image1.jpg)
-![Website](./images/Image2.jpg)
+![Website](./images/Image1.png)
+![Website](./images/Image2.png)
