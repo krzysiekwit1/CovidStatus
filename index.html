@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./css/index.css" />
   </head>
   <body>
+    <!-- header section-->
     <div class="reset container-fluid">
       <div style="font-size: 30px;" class="text-center">
         Covid-19 Current World status
@@ -31,6 +32,7 @@
         Compare two Countries
       </div>
     </div>
+    <!-- Compare countries button-->
     <div class="text-center">
       <button
         type="button"
@@ -41,7 +43,7 @@
         Compare
       </button>
     </div>
-
+    <!-- choose country section-->
     <div class="container2 container-flex align-middle">
       <div class="row">
         <div class="wprowadzPanstwo col-10 mx-auto col-md-6 col-lg-6 r">
@@ -93,144 +95,10 @@
         <canvas id="myChartCompared"></canvas>
       </div>
     </div>
-
+    <!--country list-->
     <script src="./countries.js"></script>
     <script src="./node_modules/jquery/dist/jquery.min.js"></script>
-    <script>
-      showCountries();
-      $(document).ready(function () {
-        init();
-        function init() {
-          var url = "https://api.covid19api.com/summary";
-
-          var dataCases = "";
-          var dataDeaths = "";
-          var dataRecovered = "";
-
-          $.get(url, function (data) {
-            console.log(data.countries);
-
-            dataCases = `Total Cases : ${data.Global.TotalConfirmed}`;
-            dataDeaths = `Total Deaths: : ${data.Global.TotalDeaths}`;
-            dataRecovered = `Total Recovered: : ${data.Global.TotalRecovered}`;
-
-            $("#dataCases").html(dataCases);
-            $("#dataDeaths").html(dataDeaths);
-            $("#dataRecovered").html(dataRecovered);
-          });
-        }
-      });
-
-      function chooseCountry(country, choosedCanvas) {
-        var choosedCountry = $(country).find(":selected").text();
-        var urlSelected =
-          "https://api.covid19api.com/total/country/" +
-          choosedCountry +
-          "/status/confirmed";
-
-        //Function after onclick searching button
-
-        $.get(urlSelected, function (data) {
-          var cases = [];
-          var date = [];
-
-          for (var i = 0; i < data.length; ++i) {
-            cases[i] = data[i].Cases;
-            date[i] = data[i].Date;
-            date[i] = date[i].substr(0, 10);
-            console.log(date[i]);
-          }
-          //chart
-
-          var ctx = document.getElementById(choosedCanvas).getContext("2d");
-          var chart1 = new Chart(ctx, {
-            // The type of chart we want to create
-
-            type: "bar",
-
-            // The data for our dataset
-
-            data: {
-              labels: date,
-              datasets: [
-                {
-                  label: choosedCountry + " Cases/Days",
-                  backgroundColor: "black",
-                  borderColor: "",
-                  data: cases,
-                },
-              ],
-            },
-
-            // Configuration options go here
-            options: {},
-          });
-        });
-      }
-      function compareCountries(country1, country2, choosedCanvas) {
-        //FIRST COUNTRY
-        var choosedCountry1 = $(country1).find(":selected").text();
-        var urlSelected1 =
-          "https://api.covid19api.com/total/country/" +
-          choosedCountry1 +
-          "/status/confirmed";
-        //SECOND COUNTRY
-        var choosedCountry2 = $(country2).find(":selected").text();
-        var urlSelected2 =
-          "https://api.covid19api.com/total/country/" +
-          choosedCountry2 +
-          "/status/confirmed";
-        $.get(urlSelected1, function (data1) {
-          var cases1 = [];
-          var cases2 = [];
-          var date = [];
-
-          for (var i = 0; i < data1.length; ++i) {
-            cases1[i] = data1[i].Cases;
-            date[i] = data1[i].Date;
-            date[i] = date[i].substr(0, 10);
-          }
-          $.get(urlSelected2, function (data2) {
-            for (var i = 0; i < data2.length; ++i) {
-              cases2[i] = data2[i].Cases;
-            }
-
-            if (chart != null) {
-              chart.destroy();
-            }
-            var ctx = document.getElementById(choosedCanvas).getContext("2d");
-            var chart = new Chart(ctx, {
-              // The type of chart we want to create
-
-              type: "bar",
-
-              // The data for our dataset
-
-              data: {
-                labels: date,
-                datasets: [
-                  {
-                    label: choosedCountry1 + " Cases/Days",
-                    backgroundColor: "red",
-                    borderColor: "rgb(255, 99, 132)",
-                    data: cases1,
-                  },
-                  {
-                    label: choosedCountry2 + " Cases/Days",
-                    backgroundColor: "green",
-                    borderColor: "rgb(255, 99, 132)",
-                    data: cases2,
-                  },
-                ],
-              },
-
-              // Configuration options go here
-              options: {},
-            });
-          });
-        });
-      }
-    </script>
+    <script src="./js/index.js"></script>
     <!--botstrap-->
     <script src="js/bootstrap.bundle.min.js"></script>
     <!--chart js-->
